@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -26,16 +25,21 @@ class LoginController extends Controller
 
         // Intentar autenticar al usuario
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            \Log::info('Usuario autenticado: ', ['user' => Auth::user()]);
+
             // Verificar si el usuario es un administrador
             if (Auth::user()->hasRole('admin')) {
+                \Log::info('Redirigiendo a admin.dashboard');
                 return redirect()->route('admin.dashboard');
             }
 
             // Redirigir al dashboard o a la página principal por defecto
             if (Auth::user()->hasRole('vendedor')) {
+                \Log::info('Redirigiendo a vendedor.dashboard');
                 return redirect()->route('vendedor.dashboard');
             }
 
+            \Log::info('Redirigiendo a home');
             return redirect()->intended('home');
         }
 
