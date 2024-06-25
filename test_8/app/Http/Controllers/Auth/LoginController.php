@@ -32,6 +32,10 @@ class LoginController extends Controller
             }
 
             // Redirigir al dashboard o a la página principal por defecto
+            if (Auth::user()->hasRole('vendedor')) {
+                return redirect()->route('vendedor.dashboard');
+            }
+
             return redirect()->intended('home');
         }
 

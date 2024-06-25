@@ -75,5 +75,3 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     // Puedes añadir otras rutas de autenticación aquí si es necesario
 });
-
-// Otras rutas personalizadas que puedas
