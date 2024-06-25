@@ -26,7 +26,12 @@ class LoginController extends Controller
 
         // Intentar autenticar al usuario
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            // Redirigir al dashboard o a la página principal
+            // Verificar si el usuario es un administrador
+            if (Auth::user()->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            // Redirigir al dashboard o a la página principal por defecto
             return redirect()->intended('home');
         }
 

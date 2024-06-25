@@ -42,6 +42,7 @@ protected $routeMiddleware = [
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // Registro del middleware CheckRole
         'role' => \App\Http\Middleware\CheckRole::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
         ];
 }
 
