@@ -28,4 +28,10 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Perfil::class, 'perfil_id');
     }
+
+    // Método para verificar roles
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }

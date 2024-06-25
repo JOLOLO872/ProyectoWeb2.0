@@ -76,4 +76,4 @@ Route::prefix('auth')->group(function () {
     // Puedes añadir otras rutas de autenticación aquí si es necesario
 });
 
-// Otras rutas personalizadas que puedas necesitar
+// Otras rutas personalizadas que puedas
