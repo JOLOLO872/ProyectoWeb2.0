@@ -4,31 +4,29 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Perfil;
+use Spatie\Permission\Models\Role;
 
 class PerfilSeeder extends Seeder
 {
     public function run()
     {
-        // Verificar si el perfil de administrador ya existe antes de crearlo
-        $perfilAdmin = Perfil::where('nombre', 'Admin')->first();
+        // Crear roles si no existen
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $vendedorRole = Role::firstOrCreate(['name' => 'vendedor']);
 
-        if (!$perfilAdmin) {
-            Perfil::create([
-                'nombre' => 'Admin',
-                'descripcion' => 'Perfil de administrador',
-            ]);
-        }
+        // Crear perfiles
+        $adminPerfil = Perfil::firstOrCreate([
+            'nombre' => 'Admin',
+            'descripcion' => 'Perfil de administrador',
+        ]);
+        
+        $vendedorPerfil = Perfil::firstOrCreate([
+            'nombre' => 'Vendedor',
+            'descripcion' => 'Perfil de vendedor',
+        ]);
 
-        // Verificar si el perfil de vendedor ya existe antes de crearlo
-        $perfilVendedor = Perfil::where('nombre', 'Vendedor')->first();
-
-        if (!$perfilVendedor) {
-            Perfil::create([
-                'nombre' => 'Vendedor',
-                'descripcion' => 'Perfil de vendedor',
-            ]);
-        }
-
-        // Puedes crear más perfiles aquí si es necesario
+        // Asociar roles a los perfiles
+        $adminPerfil->roles()->attach($adminRole);
+        $vendedorPerfil->roles()->attach($vendedorRole);
     }
 }

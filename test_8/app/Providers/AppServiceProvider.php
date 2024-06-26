@@ -2,23 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Permission;
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
+    
+    public function boot()
     {
-        //
-    }
+        $this->registerPolicies();
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
+        // Registrar todos los permisos necesarios
+        Permission::create(['nombre' => 'admin']);
+        Permission::create(['nombre' => 'vendedor']);
+
+        // Asignar permisos a roles si es necesario
+        Role::findByName('admin')->givePermissionTo('admin');
+        Role::findByName('vendedor')->givePermissionTo('vendedor');
     }
 }

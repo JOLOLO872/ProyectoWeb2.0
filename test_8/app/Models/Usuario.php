@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Usuario extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
+
+    protected $table = 'usuarios';
 
     protected $fillable = [
         'nombre',
         'email',
-        'perfil_id',
         'password',
-        'role',
+        'perfil_id',
     ];
 
     protected $hidden = [
@@ -23,15 +25,8 @@ class Usuario extends Authenticatable
         'remember_token',
     ];
 
-    // Relación inversa con el modelo Perfil
     public function perfil()
     {
-        return $this->belongsTo(Perfil::class, 'perfil_id');
-    }
-
-    // Método para verificar roles
-    public function hasRole($role)
-    {
-        return $this->role === $role;
+        return $this->belongsTo(Perfil::class);
     }
 }

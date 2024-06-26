@@ -19,10 +19,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Opción 1</a>
+                            <a class="nav-link" href="#">Perfiles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Opción 2</a>
+                            <a class="nav-link" href="#">Menùs</a>
                         </li>
                         <!-- Agrega aquí más opciones de navegación si es necesario -->
                     </ul>

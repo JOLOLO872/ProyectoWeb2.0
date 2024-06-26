@@ -8,6 +8,11 @@ class Kernel extends HttpKernel
 {
     protected $middleware = [
         // Otros middlewares globales
+        \App\Http\Middleware\TrustProxies::class,
+        \App\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
     protected $middlewareGroups = [
@@ -41,4 +46,14 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
     ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        // Schedule tasks here
+    }
+
+    protected function commands()
+    {
+        // Register commands here
+    }
 }

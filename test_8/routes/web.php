@@ -8,8 +8,7 @@ use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\ItemMenuController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Auth\LoginController; // Añadido para referenciar el controlador de autenticación
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\LoginController;
 
 // Rutas de autenticación generadas por Auth::routes()
 Auth::routes();
@@ -22,8 +21,8 @@ Route::get('/', function () {
 // Ruta de inicio protegida por autenticación
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
-// Rutas para Usuarios
-Route::prefix('usuarios')->middleware('auth')->group(function () {
+// Rutas para Usuarios (protegidas por autenticación y roles)
+Route::middleware(['auth', 'role:admin'])->prefix('usuarios')->group(function () {
     Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
     Route::get('/create', [UsuarioController::class, 'create'])->name('usuarios.create');
     Route::post('/store', [UsuarioController::class, 'store'])->name('usuarios.store');
@@ -33,8 +32,8 @@ Route::prefix('usuarios')->middleware('auth')->group(function () {
     Route::delete('/{usuario}/delete', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 });
 
-// Rutas para Perfiles
-Route::prefix('perfiles')->middleware('auth')->group(function () {
+// Rutas para Perfiles (protegidas por autenticación y roles)
+Route::middleware(['auth', 'role:admin'])->prefix('perfiles')->group(function () {
     Route::get('/', [PerfilController::class, 'index'])->name('perfiles.index');
     Route::get('/create', [PerfilController::class, 'create'])->name('perfiles.create');
     Route::post('/store', [PerfilController::class, 'store'])->name('perfiles.store');
@@ -44,34 +43,27 @@ Route::prefix('perfiles')->middleware('auth')->group(function () {
     Route::delete('/{perfil}/delete', [PerfilController::class, 'destroy'])->name('perfiles.destroy');
 });
 
-// Rutas para Menus
-Route::resource('menus', MenuController::class)->middleware('auth');
+// Rutas para Menus (protegidas por autenticación)
+Route::middleware(['auth'])->resource('menus', MenuController::class);
 
-// Rutas para Items de Menú
-Route::resource('menu-items', ItemMenuController::class)->middleware('auth');
+// Rutas para Items de Menú (protegidas por autenticación)
+Route::middleware(['auth'])->resource('menu-items', ItemMenuController::class);
 
-// Rutas para Permisos
-Route::resource('permisos', PermisoController::class)->middleware('auth');
+// Rutas para Permisos (protegidas por autenticación)
+Route::middleware(['auth'])->resource('permisos', PermisoController::class);
 
 // Rutas para Productos (protegidas por autenticación y roles)
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::resource('productos', ProductoController::class);
-});
+Route::middleware(['auth', 'role:admin'])->resource('productos', ProductoController::class);
 
 // Rutas para el Dashboard de Administrador
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
-});
+Route::middleware(['auth', 'role:admin'])->get('/admin', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
 
 // Rutas para el Dashboard de Vendedor
-Route::middleware(['auth', 'role:vendedor'])->group(function () {
-    Route::get('/vendedor', [HomeController::class, 'vendedorDashboard'])->name('vendedor.dashboard');
-});
+Route::middleware(['auth', 'role:vendedor'])->get('/vendedor', [HomeController::class, 'vendedorDashboard'])->name('vendedor.dashboard');
 
 // Rutas de autenticación personalizadas
 Route::prefix('auth')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-    // Puedes añadir otras rutas de autenticación aquí si es necesario
 });

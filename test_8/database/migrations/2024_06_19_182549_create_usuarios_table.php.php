@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,18 +12,15 @@ class CreateUsuariosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('email')->unique();
-            $table->unsignedBigInteger('perfil_id'); // Ajusta el tipo según corresponda
+            $table->unsignedBigInteger('perfil_id');
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
 
-            // Definición de la llave foránea
             $table->foreign('perfil_id')
                 ->references('id')
                 ->on('perfiles')
                 ->onDelete('cascade');
-
-            $table->string('password');
-            $table->string('role')->default('vendedor'); // Agregar la columna 'role'
-            $table->rememberToken();
-            $table->timestamps();
         });
     }
 

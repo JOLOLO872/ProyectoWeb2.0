@@ -1,10 +1,12 @@
+<!-- resources/views/admin/dashboard.blade.php -->
 
-
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container">
     <h1>Dashboard de Administrador</h1>
-    <p>Bienvenido, {{ Auth::user()->name }}</p>
+    @auth
+        <p>Bienvenido, {{ Auth::user()->name }}</p>
+    @endauth
 </div>
 @endsection

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -25,22 +24,16 @@ class LoginController extends Controller
 
         // Intentar autenticar al usuario
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            \Log::info('Usuario autenticado: ', ['user' => Auth::user()]);
-
-            // Verificar si el usuario es un administrador
-            if (Auth::user()->hasRole('admin')) {
-                \Log::info('Redirigiendo a admin.dashboard');
+            // Verificar el rol del usuario y redirigir según el rol
+            $usuario = Auth::user();
+            if ($usuario->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
-            }
-
-            // Redirigir al dashboard o a la página principal por defecto
-            if (Auth::user()->hasRole('vendedor')) {
-                \Log::info('Redirigiendo a vendedor.dashboard');
+            } elseif ($usuario->hasRole('vendedor')) {
                 return redirect()->route('vendedor.dashboard');
+            } else {
+                // Por defecto, redirigir al dashboard principal
+                return redirect()->route('home');
             }
-
-            \Log::info('Redirigiendo a home');
-            return redirect()->intended('home');
         }
 
         // Si la autenticación falla, redirigir de vuelta con un mensaje de error
