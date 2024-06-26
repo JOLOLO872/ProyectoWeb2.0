@@ -15,7 +15,7 @@ class CheckRole
         }
 
         foreach ($roles as $role) {
-            if (Auth::usuario()->hasRole($role)) {
+            if (Auth::user()->hasRole($role)) {
                 return $next($request);
             }
         }

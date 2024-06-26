@@ -67,3 +67,17 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+// Rutas adicionales con middleware 'role'
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Ejemplo de ruta adicional protegida por 'role:admin'
+    Route::get('/example', function () {
+        return 'Esta ruta está protegida por el middleware role:admin';
+    });
+});
+
+// Ejemplo de ruta protegida por 'role:vendedor'
+Route::middleware(['auth', 'role:vendedor'])->get('/vendedor-only', function () {
+    return 'Esta ruta está protegida por el middleware role:vendedor';
+})->name('vendedor.only');
+

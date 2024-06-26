@@ -1,5 +1,3 @@
-<!-- resources/views/auth/login.blade.php -->
-
 @extends('layouts.pruebalogin')
 
 @section('content')
@@ -31,7 +29,7 @@
                 </div>
 
                 <div class="mb-3 text-end">
-                    <button type="submit"  class="btn btn-primary">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </div>
             </form>
             <!-- Fin del Formulario de Laravel -->
