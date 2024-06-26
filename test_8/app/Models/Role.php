@@ -1,16 +1,19 @@
 <?php
 
-use Spatie\Permission\Models\Role;
+namespace App\Models;
 
-// Crear un nuevo rol 'admin' si no existe
-$roleAdmin = Role::where('name', 'admin')->first();
-if (!$roleAdmin) {
-    Role::create(['name' => 'admin', 'guard_name' => 'web']);
-}
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-// Crear un nuevo rol 'vendedor' si no existe
-$roleVendedor = Role::where('name', 'vendedor')->first();
-if (!$roleVendedor) {
-    Role::create(['name' => 'vendedor', 'guard_name' => 'web']);
+class Role extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'guard_name'];
+
+    public function usuarios()
+    {
+        return $this->hasMany(Usuario::class, 'role_id');
+    }
 }
     

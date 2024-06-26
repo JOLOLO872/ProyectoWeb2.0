@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     protected $middleware = [
-        // Otros middlewares globales
+        // Middlewares globales
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -34,7 +34,7 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        // Otros middlewares de ruta
+        // Middlewares de ruta
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

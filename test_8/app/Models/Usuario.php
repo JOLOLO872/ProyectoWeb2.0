@@ -1,32 +1,29 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 
 class Usuario extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
-    protected $table = 'usuarios';
+    protected $table = 'usuarios'; // Nombre de la tabla en plural
 
     protected $fillable = [
-        'nombre',
-        'email',
-        'password',
-        'perfil_id',
+        'nombre', 'email', 'password', 'role_id',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    public function perfil()
+    // Relación con el modelo Role
+    public function role()
     {
-        return $this->belongsTo(Perfil::class);
+        return $this->belongsTo(Role::class, 'role_id'); // Relación con clave foránea 'role_id'
+    }
+
+    // Método para verificar roles
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
     }
 }

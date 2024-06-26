@@ -9,7 +9,11 @@ class RolesTableSeeder extends Seeder
 {
     public function run()
     {
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'vendedor']);
+        // Crear roles si no existen
+        $roles = ['admin', 'vendedor'];
+
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
+        }
     }
 }
